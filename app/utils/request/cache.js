@@ -30,7 +30,7 @@ module.exports = async (url, gotOpts = {}, {expire = '7d'} = {}) => {
 
     const cacheFile = path.join(
         os.tmpdir(),
-        hasha(''),
+        hasha('').slice(0, 10),
         hasha(process.env.npm_package_name || ''),
         hasha(url),
         hasha(JSON.stringify(gotOpts)),
