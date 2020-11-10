@@ -1,0 +1,42 @@
+{
+  "name": "utils-mad",
+  "version": "9.7.0",
+  "description": "Some useful utils",
+  "maintainers": [
+    "Kirill Molchanov <k03.mad@gmail.com"
+  ],
+  "main": "app/main",
+  "repository": "k03mad/utils-mad",
+  "engines": {
+    "node": ">=14"
+  },
+  "dependencies": {
+    "chalk": "4.1.0",
+    "cheerio": "1.0.0-rc.3",
+    "debug": "4.2.0",
+    "got": "11.8.0",
+    "hasha": "5.2.2",
+    "moment": "2.29.1",
+    "nano-time": "1.0.0",
+    "node-routeros": "1.6.8",
+    "pretty-bytes": "5.4.1",
+    "random-mua": "0.5.0",
+    "shrink-string": "3.0.7",
+    "xml-js": "1.6.11"
+  },
+  "devDependencies": {
+    "eslint": "7.13.0",
+    "eslint-config-k03mad": "6.0.2",
+    "eslint-plugin-jsdoc": "30.7.7",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-sort-requires": "2.1.0",
+    "eslint-plugin-unicorn": "23.0.0",
+    "husky": "4.3.0"
+  },
+  "scripts": {
+    "lint": "eslint ./ --report-unused-disable-directives --format=codeframe --ignore-pattern='!.*'",
+    "setup": "npm i"
+  },
+  "license": "Unlicense"
+}
