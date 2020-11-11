@@ -12,12 +12,14 @@ const {win} = require('../../const/ua');
  * @param {string} [opts.password]
  * @param {string} opts.config
  * @param {object} [opts.searchParams]
+ * @param {string} [opts.route]
  * @returns {Array}
  */
 module.exports = async (path, {
     email = google.email,
     password = next.password,
     config = next.config,
+    route = 'analytics',
     searchParams = {
         from: '-30d',
         timezoneOffset: '-180',
@@ -25,7 +27,7 @@ module.exports = async (path, {
     },
 } = {}) => {
     const cookie = await auth({email, password});
-    const {body} = await got(`https://api.nextdns.io/configurations/${config}/analytics/${path}`, {
+    const {body} = await got(`https://api.nextdns.io/configurations/${config}/${route}/${path}`, {
         searchParams,
         headers: {
             'user-agent': win.chrome,

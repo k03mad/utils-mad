@@ -1,6 +1,6 @@
 'use strict';
 
-const got = require('../../utils/request/got');
+const gotCache = require('../../utils/request/cache');
 const {google, next} = require('../../../env');
 const {win} = require('../../const/ua');
 
@@ -11,14 +11,14 @@ const {win} = require('../../const/ua');
  * @returns {Array}
  */
 module.exports = async ({email = google.email, password = next.password} = {}) => {
-    const {body, headers} = await got('https://api.nextdns.io/accounts/@login', {
+    const {body, headers} = await gotCache('https://api.nextdns.io/accounts/@login', {
         method: 'POST',
         json: {email, password},
         headers: {
             'user-agent': win.chrome,
             'origin': 'https://my.nextdns.io',
         },
-    });
+    }, {expire: '2m'});
 
     const errors = body?.errors;
 
