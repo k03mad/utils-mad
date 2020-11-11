@@ -33,6 +33,10 @@ module.exports = {
         get: require('./api/myshows/get'),
         watch: require('./api/myshows/watch'),
     },
+    next: {
+        auth: require('./api/next/auth'),
+        get: require('./api/next/get'),
+    },
     orna: {
         get: require('./api/orna/get'),
         web: require('./api/orna/web'),
