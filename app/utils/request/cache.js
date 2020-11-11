@@ -48,6 +48,7 @@ module.exports = async (url, gotOpts = {}, {expire = '7d'} = {}) => {
             d: 'days',
             h: 'hours',
             m: 'minutes',
+            s: 'seconds',
         };
 
         const count = Number(expire.replace(/\D/, ''));
