@@ -13,7 +13,7 @@
   "dependencies": {
     "chalk": "4.1.0",
     "cheerio": "1.0.0-rc.3",
-    "debug": "4.2.0",
+    "debug": "4.3.1",
     "got": "11.8.0",
     "hasha": "5.2.2",
     "moment": "2.29.1",
@@ -21,13 +21,13 @@
     "node-routeros": "1.6.8",
     "pretty-bytes": "5.4.1",
     "random-mua": "0.5.0",
-    "shrink-string": "3.0.7",
+    "shrink-string": "3.0.8",
     "xml-js": "1.6.11"
   },
   "devDependencies": {
-    "eslint": "7.13.0",
+    "eslint": "7.14.0",
     "eslint-config-k03mad": "6.0.2",
-    "eslint-plugin-jsdoc": "30.7.7",
+    "eslint-plugin-jsdoc": "30.7.8",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-sort-requires": "2.1.0",
