@@ -7,7 +7,7 @@ const {win} = require('../../const/ua');
 
 /**
  * @param {object} opts
- * @param {string} opts.route
+ * @param {string} opts.path
  * @param {string} [opts.method]
  * @param {string} [opts.email]
  * @param {string} [opts.password]
@@ -16,7 +16,7 @@ const {win} = require('../../const/ua');
  * @returns {Array}
  */
 module.exports = async ({
-    route,
+    path,
     method = 'GET',
     email = google.email,
     password = next.password,
@@ -28,7 +28,7 @@ module.exports = async ({
     },
 } = {}) => {
     const cookie = await auth({email, password});
-    const {body} = await got(`https://api.nextdns.io/configurations/${config}/${route}`, {
+    const {body} = await got(`https://api.nextdns.io/configurations/${config}/${path}`, {
         method,
         searchParams,
         headers: {
