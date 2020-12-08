@@ -6,20 +6,21 @@ const {google, next} = require('../../../env');
 const {win} = require('../../const/ua');
 
 /**
- * @param {string} path
  * @param {object} opts
+ * @param {string} opts.route
+ * @param {string} [opts.method]
  * @param {string} [opts.email]
  * @param {string} [opts.password]
- * @param {string} opts.config
+ * @param {string} [opts.config]
  * @param {object} [opts.searchParams]
- * @param {string} [opts.route]
  * @returns {Array}
  */
-module.exports = async (path, {
+module.exports = async ({
+    route,
+    method = 'GET',
     email = google.email,
     password = next.password,
     config = next.config,
-    route = 'analytics',
     searchParams = {
         from: '-30d',
         timezoneOffset: '-180',
@@ -27,7 +28,8 @@ module.exports = async (path, {
     },
 } = {}) => {
     const cookie = await auth({email, password});
-    const {body} = await got(`https://api.nextdns.io/configurations/${config}/${route}/${path}`, {
+    const {body} = await got(`https://api.nextdns.io/configurations/${config}/${route}`, {
+        method,
         searchParams,
         headers: {
             'user-agent': win.chrome,
