@@ -9,7 +9,7 @@
  * @returns {Array}
  */
 module.exports = (
-    domains, {comment = '!', separator = '—', pad = 30} = {},
+    domains, {comment = '! ', separator = '—', pad = 30} = {},
 ) => [...domains]
     .reverse()
     .map((elem, i, arr) => {
