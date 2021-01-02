@@ -16,10 +16,10 @@ const {win} = require('../../const/ua');
  */
 module.exports = async ({
     path,
-    rest,
     email = google.email,
     password = next.password,
     config = next.config,
+    ...rest
 } = {}) => {
     const cookie = await auth({email, password});
     const {body} = await got(`https://api.nextdns.io/configurations/${config}/${path}`, {
