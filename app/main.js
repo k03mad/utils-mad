@@ -100,6 +100,7 @@ module.exports = {
     request: {
         cache: require('./utils/request/cache'),
         curl: require('./utils/request/curl'),
+        doh: require('./utils/request/doh'),
         got: require('./utils/request/got'),
         proxy: require('./utils/request/proxy'),
     },
