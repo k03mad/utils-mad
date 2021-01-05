@@ -9,7 +9,7 @@ module.exports = (arr, size) => {
     const tempArr = arr.slice(0);
     const results = [];
 
-    while (tempArr.length) {
+    while (tempArr.length > 0) {
         results.push(tempArr.splice(0, size));
     }
 
