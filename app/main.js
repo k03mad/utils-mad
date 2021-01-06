@@ -36,6 +36,7 @@ module.exports = {
     next: {
         auth: require('./api/next/auth'),
         query: require('./api/next/query'),
+        list: require('./api/next/list'),
     },
     orna: {
         get: require('./api/orna/get'),
