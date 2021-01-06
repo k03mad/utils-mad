@@ -1,5 +1,6 @@
 'use strict';
 
+const query = require('./query');
 const {google, next} = require('../../../env');
 
 /**
@@ -16,6 +17,6 @@ module.exports = async ({
     password = next.password,
     config = next.config,
 } = {}) => {
-    const list = await next.query({path, email, password, config});
+    const list = await query({path, email, password, config});
     return list.map(({domain}) => domain);
 };
