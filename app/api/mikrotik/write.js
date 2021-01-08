@@ -1,5 +1,6 @@
 'use strict';
 
+const debug = require('debug')('utils-mad:mikrotik:write');
 const delay = require('../../utils/promise/delay');
 const {mikrotik} = require('../../../env');
 const {RouterOSAPI} = require('node-routeros');
@@ -32,6 +33,7 @@ module.exports = async (cmd, router = mikrotik) => {
         for (const elem of send) {
             for (let i = 1; i <= tries; i++) {
                 try {
+                    debug('%o', elem);
                     const data = await client.write(elem);
                     response.push(data);
                     break;
