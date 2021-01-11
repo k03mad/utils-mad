@@ -1,6 +1,6 @@
 'use strict';
 
-const got = require('./got');
+const gotCache = require('./cache');
 
 /**
  * @param {object} opts
@@ -9,10 +9,10 @@ const got = require('./got');
  * @returns {Promise<object>}
  */
 module.exports = async ({resolver = 'https://cloudflare-dns.com/dns-query', domain}) => {
-    const {body} = await got(resolver, {
+    const {body} = await gotCache(resolver, {
         headers: {accept: 'application/dns-json'},
         searchParams: {name: domain},
-    });
+    }, {expire: '1m'});
 
     return body;
 };
