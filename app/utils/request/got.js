@@ -3,6 +3,8 @@
 const curl = require('./curl');
 const debug = require('debug')('utils-mad:request:got');
 const got = require('got');
+const now = require('nano-time');
+const save = require('./save');
 const ua = require('../../const/ua');
 
 /**
@@ -23,8 +25,11 @@ module.exports = async (url, opts = {}) => {
         opts.headers['user-agent'] = ua.tools.curl;
     }
 
+    const timing = now();
+
     try {
         const response = await got(url, opts);
+        save(response, timing, opts);
 
         if (!opts.responseType) {
             try {
@@ -36,6 +41,8 @@ module.exports = async (url, opts = {}) => {
         return response;
 
     } catch (err) {
+        save(err, timing, opts);
+
         debug(curl(url, opts, err));
         throw err;
     }

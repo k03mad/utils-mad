@@ -8,6 +8,7 @@ module.exports = {
     influx: {
         url: process.env.INFLUX_URL,
         db: process.env.INFLUX_DB,
+        request: process.env.INFLUX_STORE_REQUEST_STATS,
     },
     mikrotik: {
         host: process.env.MIKROTIK_HOST,
