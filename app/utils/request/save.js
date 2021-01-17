@@ -21,19 +21,20 @@ module.exports = async response => {
             const parsed = new URL(response.requestUrl);
 
             if (!parsed.href.startsWith(env.influx.url)) {
-                const timing = now();
+                const date = now();
 
                 const data = {
                     statusCode: response?.statusCode,
                     method: response?.req?.method,
                     domain: parsed.hostname,
-                    timing,
+                    timing: response?.timings?.phases?.total,
+                    date,
                 };
 
                 const cacheFile = path.join(
                     os.tmpdir(),
                     '_req_stats',
-                    `${timing}.json`,
+                    `${date}.json`,
                 );
 
                 await fs.mkdir(path.dirname(cacheFile), {recursive: true});
