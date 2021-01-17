@@ -26,19 +26,19 @@ module.exports = (url, {
 }, res) => {
     const msg = [];
 
-    if (res && res.response) {
+    if (res?.response) {
         res = res.response;
     }
 
-    if (res && res.statusCode) {
+    if (res?.statusCode) {
         msg.push(bgWhite(black(res.statusCode)));
     }
 
-    if (res && res.timings) {
+    if (res?.timings) {
         msg.push(`[${res.timings.phases.total} ms]`);
     }
 
-    if (res && res.headers && res.headers['content-length']) {
+    if (res?.headers?.['content-length']) {
         msg.push(`[${prettyBytes(Number(res.headers['content-length']))}]`);
     }
 

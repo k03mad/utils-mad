@@ -3,6 +3,7 @@
 const curl = require('./curl');
 const debug = require('debug')('utils-mad:request:got');
 const got = require('got');
+const save = require('./save');
 const ua = require('../../const/ua');
 
 /**
@@ -25,6 +26,7 @@ module.exports = async (url, opts = {}) => {
 
     try {
         const response = await got(url, opts);
+        await save(response);
 
         if (!opts.responseType) {
             try {
@@ -35,6 +37,8 @@ module.exports = async (url, opts = {}) => {
         debug(curl(url, opts, response));
         return response;
     } catch (err) {
+        await save(err);
+
         debug(curl(url, opts, err));
         throw err;
     }
