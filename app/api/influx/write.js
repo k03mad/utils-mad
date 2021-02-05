@@ -26,7 +26,7 @@ module.exports = async data => {
             const writeData = Object.entries(values).map(elem => {
                 const [key, prop] = elem;
                 return [
-                    escape(key),
+                    escape(key, ', '),
                     typeof prop === 'string' ? `"${escape(prop, '"').trim()}"` : prop,
                 ].join('=');
             }).join();
