@@ -5,23 +5,27 @@ const delay = require('../../utils/promise/delay');
 const escape = require('../../utils/string/escape');
 const got = require('../../utils/request/got');
 const now = require('nano-time');
+const pMap = require('p-map');
 const {influx} = require('../../../env');
 
 /**
  * @param {object} data
  */
 module.exports = async data => {
-    const RETRIES_COUNT = 3;
-    const RETRIES_DELAY = 10000;
+    const concurrency = 5;
+    const tries = {
+        count: 3,
+        delay: 10000,
+    };
 
     const errors = [];
 
-    for (const {
+    await pMap(convert(data), async ({
         url = influx.url,
         db = influx.db,
         meas, values,
         timestamp = now(),
-    } of convert(data)) {
+    }) => {
         try {
             const writeData = Object.entries(values).map(elem => {
                 const [key, prop] = elem;
@@ -35,15 +39,15 @@ module.exports = async data => {
                 const path = `${url}/write`;
                 const body = `${meas} ${writeData} ${timestamp}`;
 
-                for (let i = 1; i <= RETRIES_COUNT; i++) {
+                for (let i = 1; i <= tries.count; i++) {
                     try {
                         await got(path, {method: 'POST', searchParams: {db}, body});
                         break;
                     } catch (err) {
-                        if (i === RETRIES_COUNT) {
+                        if (i === tries.count) {
                             throw new Error([`InfluxDB "${db}" write error:`, path, body, err].join('\n').trim());
                         } else {
-                            await delay(RETRIES_DELAY);
+                            await delay(tries.delay);
                         }
                     }
                 }
@@ -51,7 +55,7 @@ module.exports = async data => {
         } catch (err) {
             errors.push(err);
         }
-    }
+    }, {concurrency});
 
     if (errors.length > 0) {
         throw errors.join('\n\n');

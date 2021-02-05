@@ -1,6 +1,7 @@
 'use strict';
 
 const convert = require('../../utils/array/convert');
+const pMap = require('p-map');
 const query = require('./query');
 const write = require('./write');
 
@@ -8,7 +9,9 @@ const write = require('./write');
  * @param {object} append
  */
 module.exports = async append => {
-    for (const data of convert(append)) {
+    const concurrency = 5;
+
+    const prepared = await pMap(convert(append), async data => {
         const measOriginal = data.meas;
         const measAppend = `${data.meas}_append`;
         const measMax = `${data.meas}_max`;
@@ -17,7 +20,6 @@ module.exports = async append => {
         const valuesAppend = {...data.values};
 
         for (const [key, value] of Object.entries(data.values)) {
-
             const queries = {
                 original: [`SELECT last("${key}") FROM "${measOriginal}"`],
                 max: [`SELECT last("${key}") FROM "${measMax}"`],
@@ -40,7 +42,6 @@ module.exports = async append => {
 
             const maxValue = valuesMax[key] ? valuesMax[key] : max;
             valuesAppend[key] = value + maxValue;
-
         }
 
         const sendData = {
@@ -52,8 +53,12 @@ module.exports = async append => {
         for (const elem in sendData) {
             if (Object.keys(sendData[elem][0]).length > 0) {
                 [data.values, data.meas] = sendData[elem];
-                await write(data);
+                return data;
             }
         }
-    }
+
+        return false;
+    }, {concurrency});
+
+    await write(prepared.filter(Boolean));
 };
