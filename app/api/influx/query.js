@@ -10,14 +10,7 @@ const {influx} = require('../../../env');
  * @param {string} opts.q
  * @returns {Promise<object>}
  */
-module.exports = async ({
-
-    url = influx.url,
-    db = influx.db,
-    q,
-
-}) => {
-
+module.exports = async ({url = influx.url, db = influx.db, q}) => {
     const path = `${url}/query`;
 
     try {
@@ -27,5 +20,4 @@ module.exports = async ({
     } catch (err) {
         throw new Error([`InfluxDB "${db}" read error:`, path, q, err].join('\n').trim());
     }
-
 };

@@ -20,12 +20,7 @@ module.exports = async data => {
 
     const errors = [];
 
-    await pMap(convert(data), async ({
-        url = influx.url,
-        db = influx.db,
-        meas, values,
-        timestamp = now(),
-    }) => {
+    await pMap(convert(data), async ({url = influx.url, db = influx.db, meas, values, timestamp = now()}) => {
         try {
             const writeData = Object.entries(values).map(elem => {
                 const [key, prop] = elem;

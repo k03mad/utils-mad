@@ -8,9 +8,7 @@ module.exports = {
     },
     influx: {
         append: require('./api/influx/append'),
-        diffBelow: require('./api/influx/diffBelow'),
         query: require('./api/influx/query'),
-        sum: require('./api/influx/sum'),
         write: require('./api/influx/write'),
     },
     iot: {

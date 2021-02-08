@@ -1,6 +1,7 @@
 'use strict';
 
 const convert = require('../../utils/array/convert');
+const pMap = require('p-map');
 const query = require('./query');
 const write = require('./write');
 
@@ -8,6 +9,8 @@ const write = require('./write');
  * @param {object} append
  */
 module.exports = async append => {
+    const concurrency = 5;
+
     const prepared = [];
 
     for (const data of convert(append)) {
@@ -18,46 +21,30 @@ module.exports = async append => {
         const valuesMax = {};
         const valuesAppend = {...data.values};
 
-        for (const [key, value] of Object.entries(data.values)) {
+        await pMap(Object.entries(data.values), async ([key, value]) => {
+            const queries = [
+                `SELECT last("${key}") FROM "${measOriginal}"`,
+                `SELECT last("${key}") FROM "${measMax}"`,
+            ];
 
-            const queries = {
-                original: [`SELECT last("${key}") FROM "${measOriginal}"`],
-                max: [`SELECT last("${key}") FROM "${measMax}"`],
-            };
-
-            const [original, max] = await Promise.all(Object.values(queries).map(async q => {
-                const {results} = await query({...data, q: q.join(' ')});
-                const [{series}] = results;
-
-                if (series && series[0]) {
-                    return series[0].values[0][1];
-                }
-
-                return 0;
+            const [original, max] = await Promise.all(queries.map(async q => {
+                const {results} = await query({...data, q});
+                return results[0].series?.[0]?.values?.[0]?.[1] || 0;
             }));
 
             if (value < original) {
                 valuesMax[key] = original + max;
             }
 
-            const maxValue = valuesMax[key] ? valuesMax[key] : max;
-            valuesAppend[key] = value + maxValue;
+            valuesAppend[key] = value + (valuesMax[key] || max);
+        }, {concurrency});
 
-        }
-
-        const sendData = {
-            original: [data.values, data.meas],
-            max: [valuesMax, measMax],
-            append: [valuesAppend, measAppend],
-        };
-
-        for (const elem in sendData) {
-            if (Object.keys(sendData[elem][0]).length > 0) {
-                [data.values, data.meas] = sendData[elem];
-                prepared.push(data);
-            }
-        }
+        prepared.push([
+            {values: data.values, meas: data.meas},
+            {values: valuesMax, meas: measMax},
+            {values: valuesAppend, meas: measAppend},
+        ].map(elem => ({...data, ...elem})));
     }
 
-    await write(prepared);
+    await write(prepared.flat());
 };
