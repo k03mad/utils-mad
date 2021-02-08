@@ -51,12 +51,12 @@ module.exports = async append => {
             append: [valuesAppend, measAppend],
         };
 
-        sendData.forEach(elem => {
+        for (const elem in sendData) {
             if (Object.keys(sendData[elem][0]).length > 0) {
                 [data.values, data.meas] = sendData[elem];
                 prepared.push(data);
             }
-        });
+        }
     }
 
     await write(prepared);
