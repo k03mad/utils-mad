@@ -18,7 +18,7 @@ module.exports = async ({email = google.email, password = next.password} = {}) =
             'user-agent': win.chrome,
             'origin': 'https://my.nextdns.io',
         },
-    }, {expire: '1d'});
+    }, {expire: '1h'});
 
     const errors = body?.errors;
 
