@@ -1,12 +1,13 @@
 {
-  "name": "utils-mad",
-  "version": "13.0.4",
-  "description": "Some useful utils",
+  "name": "@k03mad/utils",
+  "version": "14.0.0",
+  "description": "My Utils",
   "maintainers": [
     "Kirill Molchanov <k03.mad@gmail.com"
   ],
   "main": "app/main",
-  "repository": "k03mad/utils-mad",
+  "repository": "k03mad/utils",
+  "license": "MIT",
   "engines": {
     "node": ">=14"
   },
@@ -38,6 +39,5 @@
   "scripts": {
     "lint": "eslint ./ --report-unused-disable-directives --format=codeframe --ignore-pattern='!.*'",
     "setup": "npm i"
-  },
-  "license": "Unlicense"
+  }
 }
