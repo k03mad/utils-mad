@@ -6,7 +6,7 @@
  * @returns {Array}
  */
 module.exports = (arr, size) => {
-    const tempArr = arr.slice(0);
+    const tempArr = [...arr];
     const results = [];
 
     while (tempArr.length > 0) {
