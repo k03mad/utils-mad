@@ -10,15 +10,18 @@ const fs = require('fs');
  * @param {boolean} opts.sync
  */
 module.exports = async (paths, {sync = false} = {}) => {
+    const options = {force: true, recursive: true};
+
     for (const folder of convert(paths)) {
         debug(`Erasing folder (sync:${sync}):\n${folder}`);
 
         if (sync) {
-            fs.rmdirSync(folder, {recursive: true});
-            fs.mkdirSync(folder, {recursive: true});
-        } else {
-            await fs.promises.rmdir(folder, {recursive: true});
-            await fs.promises.mkdir(folder, {recursive: true});
+            fs.rmSync(folder, options);
+            fs.mkdirSync(folder, options);
+            return;
         }
+
+        await fs.promises.rm(folder, options);
+        await fs.promises.mkdir(folder, options);
     }
 };
