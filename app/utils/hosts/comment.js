@@ -1,5 +1,7 @@
 'use strict';
 
+const sort = require('./sort');
+
 /**
  * @param {Array|Set} domains
  * @param {object} opts
@@ -10,7 +12,7 @@
  */
 module.exports = (
     domains, {comment = '! ', separator = '—', pad = 30} = {},
-) => [...domains]
+) => sort(domains)
     .reverse()
     .map((elem, i, arr) => {
         const currentDomain = elem.split('.').pop();
@@ -29,4 +31,5 @@ module.exports = (
 
         return elem;
     })
-    .reverse();
+    .reverse()
+    .join('\n');

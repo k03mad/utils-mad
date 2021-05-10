@@ -22,7 +22,6 @@ module.exports = async opts => {
     });
 
     return body.rooms
-        .map(elem => elem.devices)
-        .flat()
+        .flatMap(elem => elem.devices)
         .find(elem => elem.name === opts.deviceName);
 };

@@ -20,7 +20,7 @@ module.exports = async (path, {
 } = {}) => {
     const {body} = await got(url + path, {
         headers: {Authorization: `Basic ${auth}`},
-        timeout: 30000,
+        timeout: 30_000,
         searchParams,
     });
     return body;

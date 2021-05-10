@@ -15,7 +15,7 @@ module.exports = async (url, opts = {}) => {
     opts = {...opts};
 
     if (!opts.timeout) {
-        opts.timeout = 15000;
+        opts.timeout = 15_000;
     }
 
     if (!opts.headers) {

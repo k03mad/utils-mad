@@ -15,7 +15,7 @@ module.exports = async data => {
     const concurrency = 5;
     const tries = {
         count: 3,
-        delay: 10000,
+        delay: 10_000,
     };
 
     const errors = [];
