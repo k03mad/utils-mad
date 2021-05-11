@@ -21,6 +21,12 @@ module.exports = async cmd => {
             .map(elem => elem.trim())
             .join('\n\n');
     } catch (err) {
-        throw new Error(`Error while trying to execute:\n> ${cmdArray.join('\n> ')}\n${err}`);
+        throw new Error([
+            'Error while trying to execute:',
+            `$ ${cmdArray.join('\n$ ')}`,
+            `# code: ${err?.code}`,
+            `# stdout: ${err?.stdout}`,
+            `# stderr: ${err?.stderr}`,
+        ].join('\n'));
     }
 };
