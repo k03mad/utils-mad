@@ -43,6 +43,13 @@ module.exports = {
     tmdb: {
         get: require('./api/tmdb/get'),
     },
+    telegram: {
+        sendMessage: require('./api/telegram/sendMessage'),
+    },
+    tinkoff: {
+        notify: require('./api/tinkoff/notify'),
+        portfolio: require('./api/tinkoff/portfolio'),
+    },
     ya: {
         auth: require('./api/ya/auth'),
     },

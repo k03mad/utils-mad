@@ -27,13 +27,13 @@
     "xml-js": "1.6.11"
   },
   "devDependencies": {
-    "@k03mad/eslint-config": "8.0.3",
-    "eslint": "7.26.0",
-    "eslint-plugin-jsdoc": "33.3.0",
+    "@k03mad/eslint-config": "8.2.2",
+    "eslint": "7.28.0",
+    "eslint-plugin-jsdoc": "35.3.0",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "5.1.0",
     "eslint-plugin-sort-requires": "2.1.0",
-    "eslint-plugin-unicorn": "32.0.1",
+    "eslint-plugin-unicorn": "33.0.1",
     "husky": "6.0.0"
   },
   "scripts": {

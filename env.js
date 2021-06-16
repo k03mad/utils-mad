@@ -21,6 +21,13 @@ module.exports = {
         login: process.env.MYSHOWS_LOGIN,
         password: process.env.MYSHOWS_PASSWORD,
     },
+    telegram: {
+        me: process.env.TELEGRAM_MY_CHAT,
+    },
+    tinkoff: {
+        token: process.env.TOAT,
+        tg: process.env.TELEGRAM_TINKOFF_BOT,
+    },
     tmdb: {
         key: process.env.TMDB_KEY,
     },
