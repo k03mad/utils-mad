@@ -70,13 +70,13 @@ module.exports = (err, {
         errors++;
         msg.push(`> errors count: ${errors}/${exitAfter}`);
 
-        if (exitAfter > errors) {
+        if (errors > exitAfter) {
             errors = 0;
             exit = true;
         }
     }
 
-    console.error(msg);
+    console.error(msg.join('\n'));
 
     if (exit) {
         msg.push('> kill process');
