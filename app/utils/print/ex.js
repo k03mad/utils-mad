@@ -26,61 +26,60 @@ module.exports = (err, {
     exit, exitAfter,
 
 } = {}) => {
+    const msg = [];
 
     if (beforeline) {
-        console.error('');
+        msg.push('');
     }
 
     if (time) {
-        console.error(green(now()));
+        msg.push(green(now()));
     }
 
     if (before) {
-        console.error(yellow(before));
+        msg.push(yellow(before));
     }
 
     if (full) {
-        console.error(err);
+        msg.push(err);
     } else {
-        console.error(err.toString());
+        msg.push(err.toString());
     }
-
-    const gotMessage = [];
 
     if (err.options && err.options.url) {
         if (err.response && err.response.statusCode) {
-            gotMessage.push(`${red(err.response.statusCode)}:`);
+            msg.push(`${red(err.response.statusCode)}:`);
         }
 
         if (err.options.method) {
-            gotMessage.push(green(err.options.method));
+            msg.push(green(err.options.method));
         }
 
-        gotMessage.push(blue(err.options.url));
-    }
-
-    if (gotMessage.length > 0) {
-        console.error(`\n${gotMessage.join(' ')}`);
+        msg.push(blue(err.options.url));
     }
 
     if (after) {
-        console.error(yellow(after));
+        msg.push(yellow(after));
     }
 
     if (afterline) {
-        console.error('');
-    }
-
-    if (exit) {
-        process.exit(1);
+        msg.push('');
     }
 
     if (exitAfter) {
         errors++;
+        msg.push(`> errors count: ${errors}/${exitAfter}`);
 
         if (exitAfter > errors) {
             errors = 0;
-            process.exit(1);
+            exit = true;
         }
+    }
+
+    console.error(msg);
+
+    if (exit) {
+        msg.push('> kill process');
+        process.exit(1);
     }
 };
