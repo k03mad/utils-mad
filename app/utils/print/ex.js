@@ -3,6 +3,8 @@
 const now = require('../date/now');
 const {green, yellow, red, blue} = require('chalk');
 
+let errors = 0;
+
 /**
  * @param {object} err
  * @param {object} opts
@@ -13,13 +15,15 @@ const {green, yellow, red, blue} = require('chalk');
  * @param {string} opts.after
  * @param {string} opts.before
  * @param {boolean} opts.exit
+ * @param {number} opts.exitAfter
  */
 module.exports = (err, {
 
     beforeline = true,
     afterline = true,
     time = true,
-    full, after, before, exit,
+    full, after, before,
+    exit, exitAfter,
 
 } = {}) => {
 
@@ -69,5 +73,14 @@ module.exports = (err, {
 
     if (exit) {
         process.exit(1);
+    }
+
+    if (exitAfter) {
+        errors++;
+
+        if (exitAfter > errors) {
+            errors = 0;
+            process.exit(1);
+        }
     }
 };
