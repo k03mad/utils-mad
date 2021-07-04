@@ -15,7 +15,7 @@ module.exports = async response => {
         && env.influx.db
         && env.influx.url
     ) {
-        response = response.response ? response.response : response;
+        response = response.response || response;
 
         if (response?.requestUrl) {
             const parsed = new URL(response.requestUrl);
