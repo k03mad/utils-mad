@@ -21,6 +21,9 @@ module.exports = {
         login: process.env.MYSHOWS_LOGIN,
         password: process.env.MYSHOWS_PASSWORD,
     },
+    pinger: {
+        tg: process.env.TELEGRAM_PINGER_BOT,
+    },
     telegram: {
         me: process.env.TELEGRAM_MY_CHAT,
     },

@@ -40,6 +40,9 @@ module.exports = {
         get: require('./api/orna/get'),
         web: require('./api/orna/web'),
     },
+    pinger: {
+        notify: require('./api/pinger/notify'),
+    },
     tmdb: {
         get: require('./api/tmdb/get'),
     },
