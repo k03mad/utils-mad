@@ -34,14 +34,19 @@ module.exports = async (checks, {
 
         if (previousCheck?.online !== ping.online) {
             const status = ping.online ? 'UP' : 'DOWN';
-            const text = [`\`${status}\` ${ping.host}${ping.port ? `:${ping.port}` : ''}`];
+            const text = [
+                `\`${status}\` `,
+                ping.host,
+                ping.port ? `:${ping.port}` : '',
+                ping.ip ? ` (${ping.ip})` : '',
+            ];
 
             if (previousCheck) {
                 const prettyDiff = ms(diff({date: previousCheck.time, period: 'milliseconds'}));
-                text.push(`_${prettyDiff} since the previous status_`);
+                text.push(`\n_${prettyDiff} since the previous status_`);
             }
 
-            await notify({text: text.join('\n')}, token);
+            await notify({text: text.filter(Boolean).join('')}, token);
 
             await fs.writeFile(
                 path.join(folder, `${hasha(domain)}.json`),
