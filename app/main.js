@@ -41,6 +41,7 @@ module.exports = {
         web: require('./api/orna/web'),
     },
     pinger: {
+        check: require('./api/pinger/check'),
         notify: require('./api/pinger/notify'),
     },
     tmdb: {
