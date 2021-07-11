@@ -28,7 +28,7 @@ module.exports = async (checks, {
         let previousCheck;
 
         try {
-            const savedData = await fs.readFile(path.join(folder, `${hasha(domain)}.json`));
+            const savedData = await fs.readFile(path.join(folder, `${hasha(domain + port)}.json`));
             previousCheck = JSON.parse(savedData);
         } catch {}
 
@@ -49,7 +49,7 @@ module.exports = async (checks, {
             await notify({text: text.filter(Boolean).join('')}, token);
 
             await fs.writeFile(
-                path.join(folder, `${hasha(domain)}.json`),
+                path.join(folder, `${hasha(domain + port)}.json`),
                 JSON.stringify({...ping, time: Date.now()}),
             );
         }
