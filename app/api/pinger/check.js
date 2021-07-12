@@ -18,9 +18,11 @@ const getFileFullPath = (folder, ping) => {
 
 /**
  * @param {object | Array<object>} checks
- * @param {object} opts
- * @param {string} opts.folder
- * @param {string} opts.token
+ * @param {string} checks.domain
+ * @param {string|number} [checks.port]
+ * @param {object} [opts]
+ * @param {string} [opts.folder]
+ * @param {string} [opts.token]
  */
 module.exports = async (checks, {
     folder = './.pinger',
@@ -29,8 +31,8 @@ module.exports = async (checks, {
     await fs.mkdir(folder, {recursive: true});
     await fs.writeFile(path.join(folder, '.gitignore'), '*');
 
-    await Promise.all(convert(checks).map(async ({domain, port}) => {
-        const ping = await tcpPingPort(domain, port);
+    await Promise.all(convert(checks).map(async ({domain, port = 80}) => {
+        const ping = await tcpPingPort(domain, Number(port));
 
         let previousCheck;
 
