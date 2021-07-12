@@ -2,7 +2,7 @@
 
 const convert = require('../../utils/array/convert');
 const diff = require('../../utils/date/diff');
-const hasha = require('hasha');
+const filenamify = require('../../utils/string/filenamify');
 const ms = require('ms');
 const notify = require('./notify');
 const path = require('path');
@@ -28,7 +28,7 @@ module.exports = async (checks, {
         let previousCheck;
 
         try {
-            const savedData = await fs.readFile(path.join(folder, `${hasha(domain + port)}.json`));
+            const savedData = await fs.readFile(path.join(folder, `${filenamify(ping.host + ping.port)}.json`));
             previousCheck = JSON.parse(savedData);
         } catch {}
 
@@ -49,7 +49,7 @@ module.exports = async (checks, {
             await notify({text: text.filter(Boolean).join('')}, token);
 
             await fs.writeFile(
-                path.join(folder, `${hasha(domain + port)}.json`),
+                path.join(folder, `${filenamify(ping.host + ping.port)}.json`),
                 JSON.stringify({...ping, time: Date.now()}),
             );
         }
