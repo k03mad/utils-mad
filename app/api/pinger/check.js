@@ -9,6 +9,13 @@ const path = require('path');
 const {promises: fs} = require('fs');
 const {tcpPingPort} = require('tcp-ping-port');
 
+const getFileFullPath = (folder, ping) => {
+    const fileName = filenamify(`${ping.host}:${ping.port}`);
+    const fileExt = '.json';
+
+    return path.join(folder, fileName + fileExt);
+};
+
 /**
  * @param {object | Array<object>} checks
  * @param {object} opts
@@ -28,7 +35,7 @@ module.exports = async (checks, {
         let previousCheck;
 
         try {
-            const savedData = await fs.readFile(path.join(folder, `${filenamify(ping.host + ping.port)}.json`));
+            const savedData = await fs.readFile(getFileFullPath(folder, ping));
             previousCheck = JSON.parse(savedData);
         } catch {}
 
@@ -49,7 +56,7 @@ module.exports = async (checks, {
             await notify({text: text.filter(Boolean).join('')}, token);
 
             await fs.writeFile(
-                path.join(folder, `${filenamify(ping.host + ping.port)}.json`),
+                getFileFullPath(folder, ping),
                 JSON.stringify({...ping, time: Date.now()}),
             );
         }
