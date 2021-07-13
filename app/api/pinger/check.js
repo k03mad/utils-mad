@@ -32,12 +32,12 @@ module.exports = async (checks, {
     await fs.mkdir(folder, {recursive: true});
     await fs.writeFile(path.join(folder, '.gitignore'), '*');
 
-    await Promise.all(convert(checks).map(async ({domain, port = 80}) => {
+    for (const {domain, port = 80} of convert(checks)) {
         let ping = await tcpPingPort(domain, Number(port));
 
         // one retry
         if (!ping.online) {
-            await delay(3000);
+            await delay();
             ping = await tcpPingPort(domain, Number(port));
         }
 
@@ -69,5 +69,5 @@ module.exports = async (checks, {
                 JSON.stringify({...ping, time: Date.now()}),
             );
         }
-    }));
+    }
 };
