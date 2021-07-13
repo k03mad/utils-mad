@@ -1,6 +1,7 @@
 'use strict';
 
 const convert = require('../../utils/array/convert');
+const delay = require('../../utils/promise/delay');
 const diff = require('../../utils/date/diff');
 const filenamify = require('../../utils/string/filenamify');
 const ms = require('ms');
@@ -32,7 +33,13 @@ module.exports = async (checks, {
     await fs.writeFile(path.join(folder, '.gitignore'), '*');
 
     await Promise.all(convert(checks).map(async ({domain, port = 80}) => {
-        const ping = await tcpPingPort(domain, Number(port));
+        let ping = await tcpPingPort(domain, Number(port));
+
+        // one retry
+        if (!ping.online) {
+            await delay(3000);
+            ping = await tcpPingPort(domain, Number(port));
+        }
 
         let previousCheck;
 
